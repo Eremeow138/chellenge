@@ -17,10 +17,18 @@ function clamp(pos, maxShift){
   return pos;
 }
 
-function cycle(pos,max){
+/*function cycle(pos,max){
   if (pos>=max){pos=0;}
   if (pos<0){pos=max-1;}
   return pos;
+}*/
+
+function cycleArr(a,am){
+  return a>=0?am[a%am.length]:am[am.length-(1+ -(a+1)%(am.length))]
+}
+
+function cycle(a,am){
+  return a>=0?a%am:am-(1+ -(a+1)%am)
 }
 
 let getSlideHandler = (shiftStep, shiftPx, animate) =>{
@@ -30,47 +38,66 @@ let getSlideHandler = (shiftStep, shiftPx, animate) =>{
     let maxShift = (slides.length)*100;
     //if ((-shift<maxShift)||){
       shift+=shiftStep;
+      //shift = cycle(shift, maxShift);
     /* if (shift<0){
         shift=-(-(shift+shiftStep)%maxShift);
       } else {
         shift=-((maxShift-(shift+shiftStep))%maxShift);
       }
-*/
+*/let width = slides[0].getBoundingClientRect().width;
+      let slideShift = -shiftPx/width;
     //}
     //console.log(maxShift, shift);
     slides.forEach((it, i, ar)=>{
-      let pos = shift+i*100;
-      let width = slides[0].getBoundingClientRect().width;
-      let slideShift = -Math.round(move/width);
+      let pos = shift+slideShift*100+(i+1)*100;
+      
       
       let duration= 400;
       // + (slideShift*100)
       let lastPos = pos;
-      pos = clamp(pos, maxShift);
-      console.log(pos);
+      pos = cycle(pos, maxShift);
+      //console.log(pos);
 
 
       if (shiftStep<0){
-
+    
       } else {
 
       }
-      //if (lastPos !== pos){
-        ar[cycle(i+1, ar.length-1)].style = `
-        transition-duration: ${animate?0:0}ms; 
-        transform: translate(calc(${pos+shiftStep}% - ${shiftPx}px));
-        `   
-      //}
+      console.log(pos, lastPos)
+      
+      
+    /*  if (pos==maxShift-100 ||pos==0){
+      if (shiftStep<0 && pos==0){ 
+        requestAnimationFrame(()=>{requestAnimationFrame(()=>{
+        it.style = `
+      transition-duration: ${animate?0:0}ms; 
+      transform: translate(calc(${pos-100}% - ${0}px));
+      `
+    });});
+      }
+      if (shiftStep>=0 && pos==maxShift){  
+        it.style = `
+      transition-duration: ${animate?0:0}ms; 
+      transform: translate(calc(${pos-100}% - ${0}px));
+      `
+      }
+      } else {*/
+      
      // console.log(maxShift, pos);
       //%((slides.length-3)*100)
+
       requestAnimationFrame(()=>{requestAnimationFrame(()=>{
       it.style = `
       transition-duration: ${animate?duration:0}ms; 
-      transform: translate(calc(${pos}% - ${shiftPx}px));
+      transform: translate(calc(${pos-100}% - ${0}px));
       `
       });});
+    //}
+
       
     });
+    shift = cycle(shift, maxShift);
   }  
   return slideHandler;
 }
