@@ -66,6 +66,20 @@ let getSlideHandler = (shiftStep, shiftPx, animate) =>{
       }
       console.log(pos, lastPos)
       
+     // if (shiftPx==0){
+      if (shiftStep<0){
+      if (pos==maxShift-100){
+        duration =0;
+      }
+      else {duration=400}
+    }else {
+      
+      if (pos==0){
+        duration =0;
+      }
+      else {duration=400}  
+    }
+  //}
       
     /*  if (pos==maxShift-100 ||pos==0){
       if (shiftStep<0 && pos==0){ 
@@ -87,12 +101,12 @@ let getSlideHandler = (shiftStep, shiftPx, animate) =>{
      // console.log(maxShift, pos);
       //%((slides.length-3)*100)
 
-      requestAnimationFrame(()=>{requestAnimationFrame(()=>{
+     // requestAnimationFrame(()=>{requestAnimationFrame(()=>{
       it.style = `
       transition-duration: ${animate?duration:0}ms; 
       transform: translate(calc(${pos-100}% - ${0}px));
       `
-      });});
+   //   });});
     //}
 
       
