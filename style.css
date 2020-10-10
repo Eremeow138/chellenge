@@ -1,5 +1,15 @@
 :root{
-  --slidesPerScreen: 6;
+  --slidesPerScreen: 4;
+}
+@media only screen and (max-width: 1279px){
+  :root{
+    --slidesPerScreen: 3;
+  }
+}
+@media only screen and (max-width: 767px){
+  :root{
+    --slidesPerScreen: 2;
+  }
 }
 .wrapper{
 
